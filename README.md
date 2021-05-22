@@ -17,3 +17,9 @@ or
 https://github.com/AlanEmersic/forum
 
 Run start application
+
+### Users:
+
+username:admin, password:test
+
+username:user, password:test
