@@ -28,10 +28,22 @@ username: user, password: test
 http://localhost:8080/h2-console/
 
 #### SQL queries
-- get all users: `SELECT * FROM USER`
+- get all users:
+    ```sql 
+    SELECT * FROM USER
+    ```
 
-- get all posts: `SELECT * FROM POST`
+- get all posts:
+    ```sql 
+    SELECT * FROM POST
+    ```
+  
+- get all users with posts:
+    ```sql 
+    SELECT * FROM USER JOIN POST ON USER.ID = POST.USERID
+    ```
 
-- get all users with posts: `SELECT * FROM USER JOIN POST ON USER.ID = POST.USERID`
-
-- get all users with roles: `SELECT * FROM USER JOIN USER_AUTHORITY ON USER.ID = USER_AUTHORITY.USER_ID JOIN AUTHORITY ON USER_AUTHORITY.AUTHORITY_ID = AUTHORITY.ID`
+- get all users with roles:
+    ```sql 
+    SELECT * FROM USER JOIN USER_AUTHORITY ON USER.ID = USER_AUTHORITY.USER_ID JOIN AUTHORITY ON USER_AUTHORITY.AUTHORITY_ID = AUTHORITY.ID
+    ```
