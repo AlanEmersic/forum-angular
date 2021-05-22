@@ -1,26 +1,23 @@
 <div class="container">      
     <div *ngIf="userPosts != null && userPosts.length > 0">
       <div *ngFor="let userPost of userPosts">
-        <div class="card col-6 my-2">
+        <div class="card my-2">
           <div class="card-header bg-dark text-light">
-            Posted by {{ userPost.username }} at {{ userPost.timestamp | date: "medium" }}            
+            Posted by {{ userPost.username }} at {{ userPost.timestamp | date: "dd.MM.yyyy. HH:mm":"UTC" }}h            
           </div>
-          <div class="card-body">
-            <!-- <h5 class="card-title">{{ post.timestamp }}</h5> -->
-            <p class="card-text">{{ userPost.comment }}</p>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          <div class="card-body">      
+            <p class="card-text">{{ userPost.comment }}</p>            
           </div>
         </div>
-      </div>
-  
-      <!-- <h3>Posts</h3>
-      <ul>
-        <li *ngFor="let post of posts">
-          <div>{{ post.timestamp }}</div>
-          <span>{{ post.comment }}</span>
-        </li>
-      </ul> -->
-    </div>
-  
-    <button routerLink="/users" class="btn btn-primary">List of users</button>
-  </div>
+      </div>      
+    </div>  
+    
+    <form class="my-5" #postForm="ngForm" (ngSubmit)="addPost(postForm)">      
+      <h3>Add new post</h3>
+      <div class="form-group">
+        <label for="comment">Comment</label>
+        <textarea type="text" class="form-control" rows="3" id="comment" name="comment" ngModel></textarea>     
+      </div>      
+      <button class="btn btn-primary">Send</button>
+    </form>
+</div>

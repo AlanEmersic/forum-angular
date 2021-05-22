@@ -1,60 +1,12 @@
 <div class="container">
   <h2>Users</h2>
   <ul class="users list-group">
-    <li *ngFor="let user of users" class="list-group-item col-6">
+    <li *ngFor="let user of users" class="list-group-item">
       <a routerLink="/detail/{{ user.username }}" class="">
         <span class="mr-3">{{ user.username }}</span>
       </a>
-      <span class="mr-2">{{ user.email }}</span>
-      <button class="btn btn-danger" (click)="delete(user)">
-        <!-- *ngIf="userService.isRoleAdmin()" -->
-        X
-      </button>
+      <span class="mr-2">{{ user.email }}</span>      
+      <button class="btn btn-danger" (click)="delete(user)" *ngIf="user.username !== 'admin'">X</button>       
     </li>
   </ul>
-
-  <div class="adduser">
-    <!-- <div *ngIf="userService.isRoleAdmin() || userService.isRoleCreator()"></div> -->
-    <h3>Add new User</h3>
-    <div>
-      <label>
-        <h4>Username:</h4>
-        <div>
-          <input #username />
-        </div>
-      </label>
-    </div>
-
-    <div>
-      <label>
-        <h4>Password:</h4>
-        <div>
-          <input #password />
-        </div>
-      </label>
-    </div>
-
-    <div>
-      <label>
-        <h4>Email:</h4>
-        <div>
-          <input #email />
-        </div>
-      </label>
-    </div>
-
-    <button
-      class="btn btn-primary"
-      (click)="
-        add(username.value, password.value, email.value);
-        username.value = '';
-        password.value = '';
-        email.value = ''
-      "
-    >
-      <span>Add User</span>
-    </button>
-  </div>
-
-  <button routerLink="/forum" class="btn btn-primary my-2">Forum</button>
 </div>

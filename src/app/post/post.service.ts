@@ -16,11 +16,10 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postURL)
-      .pipe(
-        tap(_ => console.log('fetched posts')),
-        catchError(this.handleError<Post[]>('getPosts', []))
-      );
+    return this.http.get<Post[]>(this.postURL).pipe(
+      tap((_) => console.log('fetched posts')),
+      catchError(this.handleError<Post[]>('getPosts', []))
+    );
   }
 
   getPostsByUsername(username: string): Observable<Post[]> {
@@ -28,6 +27,16 @@ export class PostService {
     return this.http.get<Post[]>(url).pipe(
       tap((_) => console.log('fetched posts')),
       catchError(this.handleError<Post[]>('getPostsByUsername', []))
+    );
+  }
+
+  addPost(post: Post, username: String): Observable<Post> {
+    const url = `${this.postURL}/?username=${username}`;
+    return this.http.post<Post>(url, post, this.httpOptions).pipe(
+      tap((newPost: Post) =>
+        console.log(`added post with username=${username}`)
+      ),
+      catchError(this.handleError<Post>('addPost'))
     );
   }
 

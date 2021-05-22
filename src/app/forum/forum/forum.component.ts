@@ -16,14 +16,17 @@ export class ForumComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private postService: PostService
+    private postService: PostService    
   ) {}
 
   ngOnInit(): void {
-    this.getUsers();
+    this.userService.getCurrentUser().subscribe((currentUser: User) => {
+      this.userService.currentUser = currentUser;
+    });
+    this.getUsersAndPosts();
   }
 
-  getUsers() {
+  getUsersAndPosts() {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
       users.forEach((user) => {
@@ -31,26 +34,37 @@ export class ForumComponent implements OnInit {
           .getPostsByUsername(user.username)
           .subscribe((posts) => {
             if (posts != undefined && posts != null) {
-              console.log(posts);
               for (let i = 0; i < posts.length; i++) {
                 const userPost = { ...user, ...posts[i] };
-                this.userPosts.push(userPost);                
+                this.userPosts.push(userPost);
               }
             }
+            this.userPosts.sort(
+              (a, b) =>
+                new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
+            );
           });
       });
     });
+    
   }
 
-  getPosts() {
-    this.postService.getPosts().subscribe((posts) => (this.posts = posts));
-  }
+  addPost(form: any) {
+    let today = new Date();
+    let date = `${today.getDate()}.${
+      today.getMonth() + 1
+    }.${today.getFullYear()}.`;
+    let time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    let dateTime = date + ' ' + time;    
 
-  // getPostsByUsername(username: string) {
-  //   this.postService.getPostsByUsername(username).subscribe((posts) => {
-  //     posts.forEach((post) => {
-  //       this.posts.push(post);
-  //     });
-  //   });
-  // }
+    const post = { comment: form.value.comment, timestamp: dateTime };
+
+    this.postService
+      .addPost(post, this.userService.currentUser?.username || '')
+      .subscribe((post) => {            
+        const userPost = {...this.userService.currentUser, ...post };
+        this.userPosts.push(userPost);               
+        form.reset();
+      });  
+  }
 }

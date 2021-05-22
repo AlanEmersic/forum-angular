@@ -5,25 +5,16 @@
 
   <div *ngIf="posts != null && posts.length > 0">
     <div *ngFor="let post of posts">
-      <div class="card col-6 my-2">
+      <div class="card my-2">
         <div class="card-header bg-dark text-light">
           Posted by {{ user.username }} at {{ post.timestamp | date: "medium" }}
         </div>
         <div class="card-body">
-          <!-- <h5 class="card-title">{{ post.timestamp }}</h5> -->
           <p class="card-text">{{ post.comment }}</p>
-          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
         </div>
       </div>
     </div>
-
-    <!-- <h3>Posts</h3>
-    <ul>
-      <li *ngFor="let post of posts">
-        <div>{{ post.timestamp }}</div>
-        <span>{{ post.comment }}</span>
-      </li>
-    </ul> -->
+  
   </div>
 
   <button (click)="goBack()" class="btn btn-primary">Back</button>

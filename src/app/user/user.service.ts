@@ -3,17 +3,32 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user.model';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { Authority } from '../forum/constants/authority';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  currentUser!: User | null;
+
   private userURL = 'http://localhost:8080/api/users';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   constructor(private http: HttpClient) {}
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.userURL}/current-user`);
+  }
+
+  isRoleAdmin(): boolean {
+    if (this.currentUser) {
+      return this.currentUser.authorities.some((authority: string) => authority === Authority.ADMIN);
+    } else {
+      return false;
+    }
+  }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userURL)
