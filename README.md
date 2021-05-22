@@ -20,6 +20,6 @@ Run start application
 
 ### Users:
 
-username:admin, password:test
+username: admin, password: test
 
-username:user, password:test
+username: user, password: test
